@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { forwardRef, useState } from "react";
+import { FieldError } from "react-hook-form";
 
 export interface SignInputProps {
   placeholder?: string;
@@ -7,7 +8,7 @@ export interface SignInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   name: string;
-  hasError?: Record<string, { message: string }>;
+  hasError?: FieldError;
   className?: string;
 }
 
@@ -23,7 +24,7 @@ const PasswordInput = forwardRef<HTMLInputElement, SignInputProps>(
       setIsOpenEye(!isOpenEye);
     };
 
-    const hasErrorForField = hasError && hasError[name];
+    const hasErrorForField = hasError?.message;
 
     return (
       <div className="relative mb-4 flex w-full flex-col">
@@ -60,7 +61,7 @@ const PasswordInput = forwardRef<HTMLInputElement, SignInputProps>(
             className="pt-2 text-sm"
             style={{ color: errorColor, marginTop: "4px" }}
           >
-            {hasError[name].message}
+            {hasErrorForField}
           </span>
         )}
       </div>
@@ -72,7 +73,7 @@ PasswordInput.displayName = "PasswordInput";
 
 const TextInput = forwardRef<HTMLInputElement, SignInputProps>(
   ({ placeholder, labelName, onChange, onBlur, name = "", hasError }, ref) => {
-    const hasErrorForField = hasError && hasError[name];
+    const hasErrorForField = hasError?.message;
     return (
       <div className="mb-4 flex w-full flex-col">
         <label htmlFor={name} className="mb-2 font-medium text-black">
@@ -96,7 +97,7 @@ const TextInput = forwardRef<HTMLInputElement, SignInputProps>(
             className="pt-2 text-sm"
             style={{ color: errorColor, marginTop: "4px" }}
           >
-            {hasError[name].message}
+            {hasErrorForField}
           </span>
         )}
       </div>
