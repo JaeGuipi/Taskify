@@ -111,7 +111,7 @@ export function SigninForm() {
               labelName="이메일"
               placeholder="이메일을 입력해주세요."
               {...register("email", emailValidationRules)}
-              hasError={errors}
+              hasError={errors.email}
               className="mx-auto w-full max-w-[520px]"
             />
 
@@ -119,7 +119,7 @@ export function SigninForm() {
               labelName="비밀번호"
               placeholder="비밀번호를 입력해주세요."
               {...register("password", passwordValidationRules)}
-              hasError={errors}
+              hasError={errors.password}
               className="mx-auto w-full max-w-[520px]"
             />
 
