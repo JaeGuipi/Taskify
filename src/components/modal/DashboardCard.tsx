@@ -40,7 +40,9 @@ export default function DashboardCard({
           <Image src="/svg/crown.svg" width={17} height={14} alt="Crown" />
         ) : (
           <div className={"hidden md:inline"}>
-            <Image src="/svg/crown.svg" width={17} height={14} alt="Crown" />
+            {dashboard.createdByMe && (
+              <Image src="/svg/crown.svg" width={17} height={14} alt="Crown" />
+            )}
           </div>
         )}
       </div>

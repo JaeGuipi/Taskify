@@ -106,29 +106,33 @@ export default function NavBar({
           <div
             className={`${buttonBorder} ${mydashboard && "border-r border-solid border-gray-300 pr-4 md:pr-8"} flex gap-x-1.5 md:mr-8 md:gap-x-3 xl:gap-x-4`}
           >
-            {screenSize === "mobile" ? (
-              <BoxButton
-                {...buttonProps}
-                disabled={false}
-                onClick={() => {
-                  router.push(`/dashboard/${boardId}/edit`); // 관리 페이지로 이동
-                }}
-              >
-                관리
-              </BoxButton>
-            ) : (
-              <BoxButton
-                {...buttonProps}
-                disabled={false}
-                onClick={() => {
-                  router.push(`/dashboard/${boardId}/edit`); // 관리 페이지로 이동
-                }}
-              >
-                <div>
-                  <Image src={settingIcon} alt="설정" />
-                </div>
-                관리
-              </BoxButton>
+            {!mydashboard && dashboardInfo?.createdByMe && (
+              <>
+                {screenSize === "mobile" ? (
+                  <BoxButton
+                    {...buttonProps}
+                    disabled={false}
+                    onClick={() => {
+                      router.push(`/dashboard/${boardId}/edit`);
+                    }}
+                  >
+                    관리
+                  </BoxButton>
+                ) : (
+                  <BoxButton
+                    {...buttonProps}
+                    disabled={false}
+                    onClick={() => {
+                      router.push(`/dashboard/${boardId}/edit`);
+                    }}
+                  >
+                    <div>
+                      <Image src={settingIcon} alt="설정" />
+                    </div>
+                    관리
+                  </BoxButton>
+                )}
+              </>
             )}
             {screenSize === "mobile" ? (
               <BoxButton

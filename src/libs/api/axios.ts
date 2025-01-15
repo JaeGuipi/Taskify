@@ -12,20 +12,18 @@ baseaxios.interceptors.request.use(
   (config) => {
     if (!config.headers) {
       config.headers = new AxiosHeaders();
-      // headers가 undefined일 경우 빈 객체로 초기화
     }
+
+    let token: string | undefined;
+
     // Node.js 환경에서 쿠키를 가져옵니다.
     if (typeof window === "undefined") {
       const tokenCookie = config.headers.cookie;
-      console.log(tokenCookie);
       if (tokenCookie) {
-        const token = tokenCookie
+        token = tokenCookie
           .split("; ")
           .find((row: string) => row.startsWith("accessToken="))
           ?.split("=")[1];
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
       }
     } else {
       // 브라우저 환경에서만 document.cookie를 사용할 수 있습니다.
@@ -33,12 +31,15 @@ baseaxios.interceptors.request.use(
         .split("; ")
         .find((row: string) => row.startsWith("accessToken="));
       if (tokenCookie) {
-        const token = tokenCookie.split("=")[1];
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
+        token = tokenCookie.split("=")[1];
       }
     }
+
+    // 토큰이 있으면 헤더에 추가
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => {

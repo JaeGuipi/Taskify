@@ -79,14 +79,14 @@ export default function Column({
               // 카드가 없을 때의 ColumnItem
               <ColumnItem
                 key={0}
-                id={0}
+                id={-1}
                 title="No Cards"
                 tags={[]}
                 dueDate=""
                 assignee={{
                   profileImageUrl: "",
                   nickname: "No Assignee",
-                  id: 0,
+                  id: -1,
                 }}
                 imageUrl=""
                 columnTitle={columnTitle}

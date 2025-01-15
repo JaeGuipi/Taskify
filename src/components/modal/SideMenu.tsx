@@ -39,6 +39,15 @@ export default function SideMenu() {
   };
 
   useEffect(() => {
+    const loadDashboard = async (): Promise<void> => {
+      const data = await getDashboardList({
+        navigationMethod: "pagination",
+        page: dashboardPage,
+        size: 10,
+      });
+      setDashboardData(data.dashboards);
+      setDashboardCount(data.totalCount);
+    };
     loadDashboard();
   }, [dashboardPage]);
 
@@ -56,7 +65,7 @@ export default function SideMenu() {
       >
         {/* 상단  */}
         <div className={"mb-5 ml-2 flex justify-center md:justify-start"}>
-          <Link href={"/"}>
+          <Link href={"/mydashboard"}>
             <Image
               src="/logo/midLogo.svg"
               alt="로고이미지"

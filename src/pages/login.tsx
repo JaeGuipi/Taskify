@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Cookies } from "react-cookie";
 import OneButton from "../components/modal/OneButton"; // 수정된 모달 컴포넌트 가져오기
 
@@ -16,6 +16,7 @@ import {
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
 import Head from "next/head";
+import { checkAuthRedirect } from "@/libs/utils/authRedirect";
 
 // Cookie 관련 함수들
 const cookies = new Cookies();
@@ -152,5 +153,9 @@ export function SigninForm() {
 
 // SignInPage 컴포넌트
 export default function SignInPage() {
+  useEffect(() => {
+    checkAuthRedirect();
+  }, []);
+
   return <SigninForm />;
 }

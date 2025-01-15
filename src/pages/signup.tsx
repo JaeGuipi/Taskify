@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import {
 } from "../components/input/formInputValidationRules";
 import OneButton from "../components/modal/OneButton";
 import Head from "next/head";
+import { checkAuthRedirect } from "@/libs/utils/authRedirect";
 
 // signUp 함수의 반환 타입 정의
 interface SignUpResponse {
@@ -34,6 +35,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    type: "",
   });
   const [isPending, setIsPending] = useState(false);
   const [modalMessage, setModalMessage] = useState<string | null>(null);
@@ -65,6 +67,10 @@ const Signup = () => {
     }
     setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
   };
+
+  useEffect(() => {
+    checkAuthRedirect();
+  }, []);
 
   const isFormValid = () => {
     return (
