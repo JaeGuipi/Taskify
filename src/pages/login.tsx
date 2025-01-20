@@ -9,14 +9,12 @@ import largeLogo from "../../public/logo/largeLogo.svg";
 import { useRouter } from "next/router";
 import { postLogin } from "../libs/api/auth";
 import { PasswordInput, TextInput } from "../components/input/signInput";
-import {
-  emailValidationRules,
-  passwordValidationRules,
-} from "../components/input/formInputValidationRules";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/userAtom";
 import Head from "next/head";
 import { checkAuthRedirect } from "@/libs/utils/authRedirect";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginFormData } from "@/libs/schemas/authSchemas";
 
 // Cookie 관련 함수들
 const cookies = new Cookies();
@@ -37,35 +35,27 @@ export const removeCookie = (name: string) => {
   return cookies.remove(name, { path: "/" });
 };
 
-export interface SignInDataType {
-  email: string;
-  password: string;
-}
-
 // SignInForm 컴포넌트
 export function SigninForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    getValues,
-  } = useForm<SignInDataType>({ mode: "all" });
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: "onChange",
+  });
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
   const [modalMessage, setModalMessage] = useState<string | null>(null);
   const [, setUser] = useAtom(userAtom);
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: LoginFormData) => {
     setIsPending(true);
-    const data = {
-      email: getValues("email"),
-      password: getValues("password"),
-    };
-
     try {
       const response = await postLogin(data);
       setUser(response.user);
-      const accessToken = response?.accessToken; // response의 구조에 맞게 수정
+      const accessToken = response?.accessToken;
       if (accessToken) {
         setCookie("accessToken", accessToken);
         setModalMessage("성공적으로 로그인되었습니다.");
@@ -111,7 +101,7 @@ export function SigninForm() {
             <TextInput
               labelName="이메일"
               placeholder="이메일을 입력해주세요."
-              {...register("email", emailValidationRules)}
+              {...register("email")}
               hasError={errors.email}
               className="mx-auto w-full max-w-[520px]"
             />
@@ -119,7 +109,7 @@ export function SigninForm() {
             <PasswordInput
               labelName="비밀번호"
               placeholder="비밀번호를 입력해주세요."
-              {...register("password", passwordValidationRules)}
+              {...register("password")}
               hasError={errors.password}
               className="mx-auto w-full max-w-[520px]"
             />
