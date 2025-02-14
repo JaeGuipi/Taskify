@@ -8,6 +8,11 @@
 
 https://taskify-sepia.vercel.app/
 
+### <a href="https://github.com/FE9-4Tential/Taskify">📋 Github 팀 레포지토리</a>
+
+### <a href="https://www.notion.so/FE_9-_-_4Tential-121d6d6479a88050baa3f31c3f4d78e9?pvs=4">🔔 프로젝트 진행 내역</a>
+
+
 <br/>
 
 # 웹 서비스 소개
